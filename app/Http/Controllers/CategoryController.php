@@ -9,11 +9,16 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *   // 管理画面TOPページ  兼  カテゴリー一覧表示
      */
-    public function index()
+    public function top()
     {
-        //
+      // カテゴリー一覧を取得
+      $categories = Category::all();
+      // dd('カテゴリー一覧', $categories);
+        return view('admin.top', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
