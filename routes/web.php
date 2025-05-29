@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,8 @@ Route::prefix('categories')->name('categories.')->group(function () {
   Route::get('/create', [CategoryController::class, 'create'])->name('create');
 // カテゴリー新規登録処理
   Route::post('/store', [CategoryController::class, 'store'])->name('store');
+  // カテゴリー詳細画面
+  Route::get('/{categoryId}', [CategoryController::class, 'show'])->name('show');
 });
 
 });
