@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50)->comment('カテゴリー名');
+            $table->text('description')->comment('カテゴリー説明');
             $table->timestamps();
         });
     }

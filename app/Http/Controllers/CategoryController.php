@@ -17,19 +17,24 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *カテゴリー新規登録画面表示
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     *  // カテゴリー新規登録処理
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        // dd('カテゴリー新規登録処理のルート', $request->name, $request->description);
+        $category = new Category();
+        $category->name        = $request->name;
+        $category->description = $request->description;
+        $category->save();
+        return redirect()->route('admin.top');
     }
 
     /**
