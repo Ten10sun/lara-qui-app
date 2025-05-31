@@ -7,7 +7,7 @@
     </div>
     <div class="lg:w-1/2 md:w-2/3 mx-auto">
 
-      <form method="post" action="{{ route('admin.categories.store') }}" class="flex flex-wrap -m-2">
+      <form method="post" action="{{ route('admin.categories.quizzes.store', ['categoryId' => $categoryId]) }}" class="flex flex-wrap -m-2">
         @csrf
 
 
