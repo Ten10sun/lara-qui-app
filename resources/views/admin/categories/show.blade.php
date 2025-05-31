@@ -25,6 +25,7 @@
         <!-- ボタン -->
         <div class="p-2 w-full">
           <button 
+          onclick="location.href='{{ route('admin.categories.quizzes.create', ['categoryId' => $category->id]) }}'"
           class="min-w-[180px] max-w-[220px] flex mx-auto text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
           クイズ新規登録</button>
         </div>        
