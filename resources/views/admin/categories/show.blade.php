@@ -51,11 +51,16 @@
           </tr>
         </thead>
         <tbody>
-          {{-- @foreach ($categories as $category) --}}
+          @foreach ($quizzes as $quiz)
           <tr>
-            <td class="px-4 py-3">1</td>
-            <td class="px-4 py-3">PHPとは？</td>
-            <td class="px-4 py-3">2025.......</td>
+            <td class="px-4 py-3">{{ $quiz->id }}</td>
+            {{-- 問題文：始めの１０文字だけを表示 --}}
+            <td class="px-4 py-3">
+              {{-- {{ Str::limit($quiz->question, 10) }} --}}
+              {{ Str::length($quiz->question) > 10 ? mb_substr($quiz->question, 0, 10) . '...' : $quiz->question }}
+            </td>
+            {{-- 更新日時 --}}
+            <td class="px-4 py-3">{{ $quiz->updated_at }}</td>
             <td class="px-4 py-3 text-lg text-gray-900">
             <button 
             {{-- クイズ編集画面に遷移 --}}
@@ -70,7 +75,7 @@
               </button>
             </td>
           </tr>
-          {{-- @endforeach --}}
+          @endforeach
         </tbody>
       </table>
     </div>
