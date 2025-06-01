@@ -34,7 +34,6 @@ class QuizController extends Controller
      */
     public function store(StoreQuizRequest $request, int $categoryId)
     {
-        // dd($categoryId, $request);
         // 先にクイズの登録
         $quiz = new Quiz();
         $quiz->category_id = $categoryId;
@@ -42,30 +41,21 @@ class QuizController extends Controller
         $quiz->explanation = $request->explanation;
         $quiz->save();
         // クイズIDを元に選択肢(option)を登録
-        $option1 = new Option();
-        $option1->quiz_id = $quiz->id;
-        $option1->content = $request->content1;
-        $option1->is_correct = $request->isCorrect1;
-        $option1->save();
+        $options = [
+            ['quiz_id' => $quiz->id, 'content' => $request->content1, 'is_correct' => $request->isCorrect1],
+            ['quiz_id' => $quiz->id, 'content' => $request->content2, 'is_correct' => $request->isCorrect2],
+            ['quiz_id' => $quiz->id, 'content' => $request->content3, 'is_correct' => $request->isCorrect3],
+            ['quiz_id' => $quiz->id, 'content' => $request->content4, 'is_correct' => $request->isCorrect4],
+        ];
 
-        $option2 = new Option();
-        $option2->quiz_id = $quiz->id;
-        $option2->content = $request->content2;
-        $option2->is_correct = $request->isCorrect2;
-        $option2->save();
-
-        $option3 = new Option();
-        $option3->quiz_id = $quiz->id;
-        $option3->content = $request->content3;
-        $option3->is_correct = $request->isCorrect3;
-        $option3->save();
-        
-        $option4 = new Option();
-        $option4->quiz_id = $quiz->id;
-        $option4->content = $request->content4;
-        $option4->is_correct = $request->isCorrect4;
-        $option4->save();
-
+        foreach ($options as $option) {
+            $newOption = new Option();
+            $newOption->quiz_id = $option['quiz_id'];
+            $newOption->content = $option['content'];
+            $newOption->is_correct = $option['is_correct'];
+            $newOption->save();
+        }
+        // クイズ登録後、カテゴリー詳細画面へリダイレクト
         return redirect()->route('admin.categories.show', ['categoryId' => $categoryId]);
     }
 
