@@ -38,8 +38,17 @@
 
 <section class="text-gray-600 body-font">
   <div class="container px-5 py-5 mx-auto">
-
     <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+
+      @if (count($quizzes) === 0)
+      <div class="text-center">
+        <p class="text-gray-500">このカテゴリーにはまだクイズが登録されていません。</p>
+        <p class="text-gray-500">クイズを登録してみましょう！</p>
+      </div>
+      @else
+
+      {{-- クイズ一覧 --}}
+
       <table class="table-auto w-full text-left whitespace-no-wrap">
         <thead>
           <tr>
@@ -78,6 +87,7 @@
           @endforeach
         </tbody>
       </table>
+      @endif
     </div>
   </div>
 </section>
