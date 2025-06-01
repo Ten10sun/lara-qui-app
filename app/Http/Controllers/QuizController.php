@@ -68,19 +68,65 @@ class QuizController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * クイズ編集画面を表示する
      */
-    public function edit(Quiz $quiz)
+    public function edit(Request $request, int $categoryId, int $quizId)
     {
-        //
+        $quiz = Quiz::with('category', 'options')->findOrFail($quizId);
+        return view('admin.quizzes.edit', [
+            'quiz' => $quiz,
+            'category' => $quiz->category,
+            'options' => $quiz->options,
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * クイズ更新処理
      */
-    public function update(UpdateQuizRequest $request, Quiz $quiz)
+    public function update(UpdateQuizRequest $request, int $categoryId, int $quizId)
     {
-        //
+        // Quizの更新
+        $quiz = Quiz::findOrFail($quizId);
+        $quiz->question = $request->question;
+        $quiz->explanation = $request->explanation;
+        $quiz->save();
+        // // Optionの更新
+        // $option1 = Option::findOrFail((int)$request->optionId1);
+        // $option1->content = $request->content1;
+        // $option1->is_correct = $request->isCorrect1;
+        // $option1->save();
+
+        // $option2 = Option::findOrFail($request->optionId2);
+        // $option2->content = $request->content2;
+        // $option2->is_correct = $request->isCorrect2;
+        // $option2->save();
+
+        // $option3 = Option::findOrFail($request->optionId3);
+        // $option3->content = $request->content3;
+        // $option3->is_correct = $request->isCorrect3;
+        // $option3->save();
+
+        // $option4 = Option::findOrFail($request->optionId4);
+        // $option4->content = $request->content4;
+        // $option4->is_correct = $request->isCorrect4;
+        // $option4->save();
+
+        $options = [
+            ['optionId' => (int)$request->optionId1, 'content' => $request->content1, 'is_correct' => $request->isCorrect1],
+            ['optionId' => (int)$request->optionId2, 'content' => $request->content2, 'is_correct' => $request->isCorrect2],
+            ['optionId' => (int)$request->optionId3, 'content' => $request->content3, 'is_correct' => $request->isCorrect3],
+            ['optionId' => (int)$request->optionId4, 'content' => $request->content4, 'is_correct' => $request->isCorrect4],
+        ];
+        foreach ($options as $option) {
+            $updateOption = Option::findOrFail($option['optionId']);
+            $updateOption->content = $option['content'];
+            $updateOption->is_correct = $option['is_correct'];
+            $updateOption->save();
+        }
+
+
+        // 更新後、カテゴリー詳細画面へリダイレクト
+        return redirect()->route('admin.categories.show', ['categoryId' => $categoryId]);
     }
 
     /**

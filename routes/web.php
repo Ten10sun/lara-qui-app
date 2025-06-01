@@ -50,10 +50,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::post('/store', [QuizController::class, 'store'])->name('store');
         // // クイズ詳細画面表示
         // Route::get('/{quizId}', [QuizController::class, 'show'])->name('show');
-        // // クイズ編集画面表示
-        // Route::get('/{quizId}/edit', [QuizController::class, 'edit'])->name('edit');
-        // // クイズ更新処理
-        // Route::post('/{quizId}/update', [QuizController::class, 'update'])->name('update');
+        // クイズ編集画面表示
+        Route::get('/{quizId}/edit', [QuizController::class, 'edit'])->name('edit');
+        // クイズ更新処理
+        Route::post('/{quizId}/update', [QuizController::class, 'update'])->name('update');
         // // クイズ削除処理
         // Route::delete('/{quizId}/delete', [QuizController::class, 'destroy'])->name('destroy');
         });
