@@ -91,26 +91,7 @@ class QuizController extends Controller
         $quiz->explanation = $request->explanation;
         $quiz->save();
         // // Optionの更新
-        // $option1 = Option::findOrFail((int)$request->optionId1);
-        // $option1->content = $request->content1;
-        // $option1->is_correct = $request->isCorrect1;
-        // $option1->save();
-
-        // $option2 = Option::findOrFail($request->optionId2);
-        // $option2->content = $request->content2;
-        // $option2->is_correct = $request->isCorrect2;
-        // $option2->save();
-
-        // $option3 = Option::findOrFail($request->optionId3);
-        // $option3->content = $request->content3;
-        // $option3->is_correct = $request->isCorrect3;
-        // $option3->save();
-
-        // $option4 = Option::findOrFail($request->optionId4);
-        // $option4->content = $request->content4;
-        // $option4->is_correct = $request->isCorrect4;
-        // $option4->save();
-
+        // 受け取ったリクエストから選択肢(option)の情報を更新
         $options = [
             ['optionId' => (int)$request->optionId1, 'content' => $request->content1, 'is_correct' => $request->isCorrect1],
             ['optionId' => (int)$request->optionId2, 'content' => $request->content2, 'is_correct' => $request->isCorrect2],
@@ -130,10 +111,16 @@ class QuizController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * クイズ削除処理
      */
-    public function destroy(Quiz $quiz)
+    public function destroy(Request $request, int $categoryId, int $quizId)
     {
-        //
+      $quiz = Quiz::findOrFail($quizId);
+        // まずはQuizを削除
+        $quiz->delete();
+        // // 次にQuizに紐づくOptionも削除
+        // Option::where('quiz_id', $quizId)->delete();
+        // カテゴリー詳細画面へリダイレクト
+        return redirect()->route('admin.categories.show', ['categoryId' => $categoryId]);
     }
 }

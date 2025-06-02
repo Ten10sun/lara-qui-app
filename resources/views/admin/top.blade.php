@@ -53,7 +53,7 @@
               <form method="post" action="{{ route('admin.categories.destroy', ['categoryId' => $category->id]) }}" onsubmit="return confirm('本当に削除しますか？');">
                 @csrf
                 @method('DELETE')
-              <button type="submit" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <button type="submit" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
                 削除
               </button>
               </form>

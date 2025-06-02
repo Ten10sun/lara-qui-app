@@ -54,8 +54,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/{quizId}/edit', [QuizController::class, 'edit'])->name('edit');
         // クイズ更新処理
         Route::post('/{quizId}/update', [QuizController::class, 'update'])->name('update');
-        // // クイズ削除処理
-        // Route::delete('/{quizId}/delete', [QuizController::class, 'destroy'])->name('destroy');
+        // クイズ削除処理
+        Route::delete('/{quizId}/destroy', [QuizController::class, 'destroy'])->name('destroy');
         });
     });
 });
