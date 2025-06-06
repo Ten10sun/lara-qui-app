@@ -5,7 +5,7 @@
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-20">
       <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">問題文</h1>
-      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">{{ $quiz['question'] }}</p> 
     </div>
     <div class="lg:w-2/3 w-full mx-auto overflow-auto">
       <table class="table-auto w-full text-left whitespace-no-wrap">
@@ -17,17 +17,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="px-4 py-3">1</td>
-            <td class="px-4 py-3">1,,,Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque odit voluptatibus! 
-              Eos ullam   aliquid sequi maiores sit commodi, consectetur debitis tempora asperiores quo blanditiis facilis
-              voluptatibus doloribus possimus itaque.
-            </td>
-            <td class="w-10 text-center">
-              <input name="plan" type="checkbox">
-            </td>
-          </tr>
-          <tr>
+
+          @for ($i = 0; $i < count($quiz['options']); $i++)
+            <tr>
+              <td class="px-4 py-3">{{ $i + 1 }}</td>
+              <td class="px-4 py-3">{{ $quiz['options'][$i]['content'] }}</td>
+              <td class="w-10 text-center">
+                <input name="plan" type="checkbox">
+              </td>
+            </tr>
+          @endfor
+          {{-- <tr>
+              <td class="px-4 py-3">1</td>
+              <td class="px-4 py-3">1,,,Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque odit voluptatibus! 
+                Eos ullam   aliquid sequi maiores sit commodi, consectetur debitis tempora asperiores quo blanditiis facilis
+                voluptatibus doloribus possimus itaque.
+              </td>
+              <td class="w-10 text-center">
+                <input name="plan" type="checkbox">
+              </td>
+            </tr>
+          @endfor --}}
+          
+          {{-- <tr>
             <td class="px-4 py-3">2</td>
             <td class="px-4 py-3">2,,,Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt atque odit voluptatibus! 
               Eos ullam   aliquid sequi maiores sit commodi, consectetur debitis tempora asperiores quo blanditiis facilis
@@ -58,7 +70,7 @@
             <td class="w-10 text-center">
               <input name="plan" type="checkbox">
             </td>
-          </tr>
+          </tr> --}}
 
         </tbody>
       </table>
