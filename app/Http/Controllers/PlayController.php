@@ -48,17 +48,8 @@ class PlayController extends Controller
     $resultArray = session('resultArray');
     // セッションに保存されていない場合は新規作成
     if (!$resultArray) {
-      // クイズIDを全て抽出する
-      $quizIds = $category->quizzes->pluck('id')->toArray();
-      shuffle($quizIds); // クイズIDをシャッフル 
-      $resultArray = [];
-      foreach ($quizIds as $quizId) {
-        // クイズIDに紐づくクイズを取得
-        $resultArray[] = [
-          'quizId' => $quizId,
-          'result' => null,
-        ];
-      }
+      $resultArray = $this->setResultArrayForSession($category);
+
       // セッションに保存
       session(['resultArray' => $resultArray]);
     }
@@ -133,6 +124,25 @@ class PlayController extends Controller
       'correctCount' => $correctCount,
       'questionCount' => $questionCount,]);
   }
+  
+
+  // 初回の時にセッションにクイズIDと解答状況を保存する
+  private function setResultArrayForSession(Category $category){
+          // クイズIDを全て抽出する
+      $quizIds = $category->quizzes->pluck('id')->toArray();
+      shuffle($quizIds); // クイズIDをシャッフル 
+      $resultArray = [];
+      foreach ($quizIds as $quizId) {
+        // クイズIDに紐づくクイズを取得
+        $resultArray[] = [
+          'quizId' => $quizId,
+          'result' => null,
+        ];
+      }
+      return $resultArray;
+  }
+
+  
   
 
   // プレイヤーの解答が正解か不正解かを判定する
