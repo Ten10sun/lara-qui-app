@@ -69,7 +69,9 @@ class PlayController extends Controller
 
     // resultがnullの要素が存在しない場合は、全てのクイズに回答済みとみなす
     if (!$noAnswerResult) {
-      dd('全てのクイズに回答済みです。');
+
+      // 全てのクイズに回答済みの場合、結果画面にリダイレクト
+      return redirect()->route('categories.quizzes.result', ['categoryId' => $categoryId]);
     }
     // クイズIDに紐づくクイズを取得
     $quiz = $category->quizzes->firstWhere('id', $noAnswerResult['quizId'])->toArray();
@@ -114,6 +116,24 @@ class PlayController extends Controller
       'isCorrectAnswer' => $isCorrectAnswer,
     ]);
   }
+
+
+  // クイズ結果画面
+  public function result(Request $request, int $categoryId)
+  {
+    // セッションからクイズIDと解答結果の配列を取得
+    $resultArray = session('resultArray');
+    $questionCount = count($resultArray);
+    $correctCount = collect($resultArray)->filter(function ($item) {
+      return $item['result'] === true;
+    })->count();
+
+    return view('play.result', [
+      'categoryId' => $categoryId,
+      'correctCount' => $correctCount,
+      'questionCount' => $questionCount,]);
+  }
+  
 
   // プレイヤーの解答が正解か不正解かを判定する
 
