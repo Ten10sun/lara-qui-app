@@ -24,10 +24,11 @@ class PlayController extends Controller
   // クイズスタート画面
   public function categories(Request $request, int $categoryId)
   {
+    // セッションの削除
+    $request->session()->forget('resultArray');
 
     // 指定されたカテゴリーIDのカテゴリーを取得
     $category = Category::withCount('quizzes')->findOrFail($categoryId);
-    // dd($category->quizzes_count);
     // ビューにカテゴリー情報を渡す
     return view('play.start', [
       'category' => $category,
@@ -40,45 +41,78 @@ class PlayController extends Controller
   {
     // カテゴリーに紐づくクイズと選択肢を全て取得
     $category = Category::with('quizzes.options')->findOrFail($categoryId);
-    // クイズをランダムに取得
-    $quizzes = $category->quizzes->toArray();
-    shuffle($quizzes); // 配列をシャッフル
-    $quiz = $quizzes[0];
-    // ビューにカテゴリー情報を渡す
-    // クイズ一覧を取得
-    // $quizzes = $category->quizzes()->inRandomOrder()->get();
-    // return view('play.quizzes', [
-    //     'category' => $category,
-    //     'quizzes' => $quizzes,
-    // ]);
+
+
+
+    // セッションに保存されているクイズIDの配列を取得
+    $resultArray = session('resultArray');
+    // セッションに保存されていない場合は新規作成
+    if (!$resultArray) {
+      // クイズIDを全て抽出する
+      $quizIds = $category->quizzes->pluck('id')->toArray();
+      shuffle($quizIds); // クイズIDをシャッフル 
+      $resultArray = [];
+      foreach ($quizIds as $quizId) {
+        // クイズIDに紐づくクイズを取得
+        $resultArray[] = [
+          'quizId' => $quizId,
+          'result' => null,
+        ];
+      }
+      // セッションに保存
+      session(['resultArray' => $resultArray]);
+    }
+
+    $noAnswerResult = collect($resultArray)->filter(function ($item) {
+      return $item['result'] === null;
+    })->first();
+
+    // resultがnullの要素が存在しない場合は、全てのクイズに回答済みとみなす
+    if (!$noAnswerResult) {
+      dd('全てのクイズに回答済みです。');
+    }
+    // クイズIDに紐づくクイズを取得
+    $quiz = $category->quizzes->firstWhere('id', $noAnswerResult['quizId'])->toArray();
+
     return view('play.quizzes', [
       'categoryId' => $categoryId,
       'quiz' => $quiz,
     ]);
   }
 
-  // kクイズ解答画面
+  // クイズ解答画面
   public function answer(Request $request, int $categoryId)
   {
-    // dd($categoryId, $request);
     $quizId = $request->quizId;
     $selectedOptions = $request->optionId === null ? [] : (array)$request->optionId;
 
     // カテゴリーに紐づくクイズと選択肢を全て取得
     $category = Category::with('quizzes.options')->findOrFail($categoryId);
-    $quiz = $category->quizzes->firstWhere('id', $quizId);    
+    $quiz = $category->quizzes->firstWhere('id', $quizId);
     $quizOptions = $quiz->options->toArray();
     $isCorrectAnswer = $this->isCorrectAnswer($selectedOptions, $quizOptions);
-    return view('play.answer'
-    , [
+
+    // セッションからクイズIDと解答結果の配列を取得
+    $resultArray = session('resultArray');
+
+    // 解答結果をセッションに保存
+    foreach ($resultArray as $index => $result) {
+      if ($result['quizId'] === (int)$quizId) {
+        // $result['result'] = $isCorrectAnswer ? 'correct' : 'incorrect';
+        $resultArray[$index]['result'] = $isCorrectAnswer;
+        break;
+      }
+    }
+    // セッションに更新された結果を保存
+    session(['resultArray' => $resultArray]);
+
+    return view('play.answer', [
       'categoryId' => $categoryId,
-      'quiz' => $quiz,
-      // 'quiz' => $quiz->toArray(),
+      'quiz' => $quiz, // ←ここを配列ではなくオブジェクトのまま渡す
       'quizOptions' => $quizOptions,
       'selectedOptions' => $selectedOptions,
       'isCorrectAnswer' => $isCorrectAnswer,
-    ]
-  );
+    ]);
   }
 
   // プレイヤーの解答が正解か不正解かを判定する
