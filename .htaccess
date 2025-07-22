@@ -1,0 +1,10 @@
+<Files ".env">
+    Require all denied
+</Files>
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
