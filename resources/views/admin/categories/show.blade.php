@@ -12,11 +12,11 @@
       <div class="flex flex-wrap -m-2">
         <!-- ボタン -->
         <div class="p-2 w-full">
-          <button 
+          <button
           onclick="location.href='{{ route('admin.categories.edit', ['categoryId' => $category->id]) }}'"
           class="min-w-[180px] max-w-[220px] flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
           カテゴリー編集</button>
-        </div>        
+        </div>
       </div>
     </div>
 
@@ -24,11 +24,11 @@
       <div class="flex flex-wrap -m-2">
         <!-- ボタン -->
         <div class="p-2 w-full">
-          <button 
+          <button
           onclick="location.href='{{ route('admin.categories.quizzes.create', ['categoryId' => $category->id]) }}'"
           class="min-w-[180px] max-w-[220px] flex mx-auto text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
           クイズ新規登録</button>
-        </div>        
+        </div>
       </div>
     </div>
 
@@ -69,21 +69,26 @@
               {{-- 更新日時 --}}
               <td class="px-4 py-3">{{ $quiz->updated_at }}</td>
               <td class="px-4 py-3 text-lg text-gray-900">
-              <button 
-              {{-- クイズ編集画面に遷移 --}}
-              onclick="location.href='{{ route('admin.categories.quizzes.edit', ['categoryId' => $category->id, 'quizId' => $quiz->id]) }}'"
-              class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                編集
-              </button>
+                <div class="flex justify-center items-center">
+                  <button
+                    onclick="location.href='{{ route('admin.categories.quizzes.edit', ['categoryId' => $category->id, 'quizId' => $quiz->id]) }}'"
+                    class="flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                    編集
+                  </button>
+                </div>
               </td>
               <td class="px-4 py-3 text-lg text-gray-900">
-                <form action="{{ route('admin.categories.quizzes.destroy', ['categoryId' => $category->id, 'quizId' => $quiz->id]) }}" method="POST">
-                  @csrf
-                  @method('DELETE')
-                  <button class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+                <div class="flex justify-center items-center">
+                  <button
+                    onclick="if(confirm('本当に削除しますか？')){document.getElementById('delete-quiz-{{ $quiz->id }}').submit();}"
+                    class="flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
                     削除
                   </button>
-                </form>
+                  <form id="delete-quiz-{{ $quiz->id }}" action="{{ route('admin.categories.quizzes.destroy', ['categoryId' => $category->id, 'quizId' => $quiz->id]) }}" method="POST" style="display:none;">
+                    @csrf
+                    @method('DELETE')
+                  </form>
+                </div>
               </td>
             </tr>
           @endforeach

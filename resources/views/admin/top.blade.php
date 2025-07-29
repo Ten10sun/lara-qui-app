@@ -10,11 +10,11 @@
       <div class="flex flex-wrap -m-2">
         <!-- ボタン -->
         <div class="p-2 w-full">
-          <button 
+          <button
           onclick="location.href='{{ route('admin.categories.create') }}'"
           class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
           カテゴリー新規登録</button>
-        </div>        
+        </div>
       </div>
     </div>
   </div>
@@ -43,20 +43,24 @@
             <td class="px-4 py-3">{{ $category->name }}</td>
             <td class="px-4 py-3">{{ $category->updated_at }}</td>
             <td class="px-4 py-3 text-lg text-gray-900">
-            <button 
+            <button
             onclick="location.href='{{ route('admin.categories.show', ['categoryId' => $category->id]) }}'"
             class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
               詳細
             </button>
             </td>
             <td class="px-4 py-3 text-lg text-gray-900">
-              <form method="post" action="{{ route('admin.categories.destroy', ['categoryId' => $category->id]) }}" onsubmit="return confirm('本当に削除しますか？');">
-                @csrf
-                @method('DELETE')
-              <button type="submit" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
-                削除
-              </button>
-              </form>
+              <div class="flex justify-center items-center">
+                <button
+                  onclick="if(confirm('本当に削除しますか？')){document.getElementById('delete-category-{{ $category->id }}').submit();}"
+                  class="flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+                  削除
+                </button>
+                <form id="delete-category-{{ $category->id }}" method="post" action="{{ route('admin.categories.destroy', ['categoryId' => $category->id]) }}" style="display:none;">
+                  @csrf
+                  @method('DELETE')
+                </form>
+              </div>
             </td>
           </tr>
           @endforeach
