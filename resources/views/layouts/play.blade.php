@@ -15,11 +15,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-white">
+        <div class="min-h-screen bg-gradient-to-b from-blue-100 via-white to-yellow-50">
 
 
         @include('components.play.header')
-        
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}

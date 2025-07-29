@@ -1,12 +1,27 @@
 <header class="text-gray-600 body-font bg-blue-200">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a href="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
-                stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-                viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            <svg viewBox="0 0 100 100" class="w-16 h-16 rounded-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bulbGradient" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#fef08a" />
+                  <stop offset="80%" stop-color="#f59e42" />
+                  <stop offset="100%" stop-color="#6366f1" />
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="45" fill="url(#bulbGradient)" stroke="#fff" stroke-width="3" />
+              <g>
+                <ellipse cx="50" cy="48" rx="16" ry="18" fill="#fffde7" stroke="#f59e42" stroke-width="2" />
+                <rect x="44" y="62" width="12" height="8" rx="3" fill="#6366f1" />
+                <rect x="46" y="70" width="8" height="4" rx="2" fill="#6366f1" />
+                <line x1="50" y1="56" x2="50" y2="62" stroke="#f59e42" stroke-width="2" />
+                <circle cx="50" cy="44" r="6" fill="#fef08a" opacity="0.7" />
+                <line x1="50" y1="28" x2="50" y2="18" stroke="#f59e42" stroke-width="2" />
+                <line x1="62" y1="32" x2="70" y2="24" stroke="#f59e42" stroke-width="2" />
+                <line x1="38" y1="32" x2="30" y2="24" stroke="#f59e42" stroke-width="2" />
+              </g>
             </svg>
-            <span class="ml-3 text-xl">MyQuizApp</span>
+            <span class="ml-2 text-xl">MyQuizApp</span>
         </a>
     </div>
 </header>
