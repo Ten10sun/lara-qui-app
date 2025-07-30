@@ -13,7 +13,7 @@
     <div class="flex flex-wrap -m-4 justify-center">
       @foreach ($categories as $category)
       <div class="p-4 w-full sm:w-1/2 lg:w-1/2 xl:w-2/5">
-        <a href="{{ route('categories.start', ['categoryId' => $category->id]) }}" class="block bg-gray-100 p-6 rounded-lg h-full">
+        <a href="{{ route('categories.start', ['categoryId' => $category->id]) }}" class="block bg-blue-50 border border-blue-200 shadow-lg p-6 rounded-xl h-full">
           <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{ $category->name }}</h2>
           <p class="leading-relaxed text-base">{{ $category->description }}</p>
         </a>
@@ -22,6 +22,6 @@
     </div>
   </div>
 </section>
-  
-  
+
+
 </x-play-layout>

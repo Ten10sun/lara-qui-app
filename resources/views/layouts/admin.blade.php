@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gradient-to-b from-blue-100 via-white to-yellow-50">
+        <div class="min-h-screen bg-gradient-to-b from-yellow-50  via-white  to-purple-100">
 
 
         @include('components.admin.header')
