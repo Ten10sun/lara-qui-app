@@ -1,52 +1,228 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# クイズアプリケーション
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## プロジェクト概要
+このプロジェクトはLaravelフレームワークを使用して構築されたクイズアプリケーションです。
 
-## About Laravel
+### 主な機能
+- ユーザー向けクイズ機能
+  - ジャンル別クイズの選択
+  - クイズの実施と採点
+  - スコア履歴の確認
+- 管理者向け機能
+  - クイズ問題の管理（作成・編集・削除）
+  - ユーザー管理
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 環境要件
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.1 以上
+- Composer 2.0 以上
+- Node.js 16.x 以上
+- npm 8.x 以上 または yarn 1.22.x 以上
+- MySQL 5.7 以上 または MariaDB 10.3 以上
+- Laravel Sail (Docker環境推奨)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## セットアップ手順
 
-## Learning Laravel
+### 開発環境の準備
+Docker Desktopをインストールし、起動しておいてください。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Laravel Sailのセットアップ
+```bash
+# 初回のみ
+./vendor/bin/sail up -d
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# コンテナ内でコマンドを実行する場合
+./vendor/bin/sail shell
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. リポジトリのクローンと初期設定
+```bash
+git clone [リポジトリURL]
+cd lara-qui-app
+```
 
-## Laravel Sponsors
+### 2. 依存関係のインストール
+```bash
+composer install
+npm install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. 環境設定ファイルの作成
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-### Premium Partners
+### 4. データベースの設定
+`.env` ファイルを編集して、データベース接続情報を設定してください。
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 5. アプリケーションキーの生成
+```bash
+php artisan key:generate
+```
 
-## Contributing
+### 6. データベースマイグレーション
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 7. 管理者アカウントの作成
+```bash
+# 管理者アカウントを作成
+php artisan make:filament-user
+
+# または既存のユーザーを管理者に昇格
+php artisan make:filament-user --user=1
+```
+
+### 8. フロントエンドアセットのビルド
+開発環境用:
+```bash
+npm run dev
+```
+
+本番環境用:
+```bash
+npm run build
+```
+
+## 開発サーバーの起動
+
+### Laravel開発サーバー (Sail使用)
+```bash
+# バックグラウンドで起動
+./vendor/bin/sail up -d
+
+# ログを確認
+./vendor/bin/sail logs -f
+```
+
+### Vite開発サーバー（別ターミナルで実行）
+```bash
+# コンテナ内で実行
+./vendor/bin/sail npm run dev
+```
+
+### 管理画面へのアクセス
+- 管理画面: `http://localhost/admin`
+- ユーザー画面: `http://localhost`
+
+## テストの実行
+```bash
+# ユニットテスト
+./vendor/bin/sail test
+
+# 機能テスト
+./vendor/bin/sail test --testsuite=Feature
+
+# 特定のテストを実行
+./vendor/bin/sail test tests/Feature/QuizTest.php
+```
+
+## 管理機能の詳細
+
+### クイズ管理
+- カテゴリ別のクイズ作成・編集・削除
+- 問題の一括インポート/エクスポート
+- 公開/非公開の切り替え
+- 正解率などの統計情報の確認
+
+### ユーザー管理
+- ユーザー一覧・検索・フィルタリング
+- ユーザー権限の管理
+- ユーザーごとの解答履歴確認
+
+### 統計・レポート
+- 人気のクイズランキング
+- ユーザーごとのスコア推移
+- 問題ごとの正答率
+
+## デプロイ
+
+### 本番環境へのデプロイ手順
+
+1. コードを本番サーバーにデプロイ
+2. 依存関係をインストール
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   npm install && npm run build
+   ```
+3. 環境設定
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+4. ストレージリンクの作成
+   ```bash
+   php artisan storage:link
+   ```
+5. スケジュール設定（クイズの公開/非公開の自動化など）
+   ```bash
+   # スケジューラーの設定
+   * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+   ```
+
+## ディレクトリ構造
+
+```
+app/
+├── Console/         # カスタムArtisanコマンド
+├── Http/
+│   ├── Controllers/ # コントローラー
+│   └── Middleware/  # ミドルウェア
+├── Models/          # データモデル
+├── Policies/        # 認可ポリシー
+└── Providers/       # サービスプロバイダー
+
+database/
+├── factories/      # テスト用ファクトリ
+├── migrations/     # データベースマイグレーション
+└── seeders/        # シーダークラス
+
+resources/
+├── js/             # JavaScriptファイル
+├── css/            # CSSファイル
+├── views/          # ビューファイル
+│   ├── admin/      # 管理画面用ビュー
+│   └── quiz/       # クイズ関連ビュー
+└── lang/           # 多言語対応ファイル
+
+routes/
+├── web.php        # Webルート
+└── console.php    # コンソールコマンド
+
+tests/             # テストファイル
+```
+
+## トラブルシューティング
+
+### 管理画面にアクセスできない場合
+1. 管理者権限を持ったユーザーでログインしているか確認
+2. ルートが正しく設定されているか確認
+   ```bash
+   php artisan route:list
+   ```
+
+### アセットが読み込まれない場合
+1. Vite開発サーバーが起動しているか確認
+2. キャッシュをクリア
+   ```bash
+   php artisan cache:clear
+   php artisan config:clear
+   php artisan view:clear
+   ```
+
+## 貢献方法
+
+1. リポジトリをフォーク
+2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+## ライセンス
+このプロジェクトは [MIT license](https://opensource.org/licenses/MIT) で公開されています。
 
 ## Code of Conduct
 
