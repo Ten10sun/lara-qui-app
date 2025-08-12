@@ -7,10 +7,8 @@
 - ユーザー向けクイズ機能
   - ジャンル別クイズの選択
   - クイズの実施と採点
-  - スコア履歴の確認
 - 管理者向け機能
   - クイズ問題の管理（作成・編集・削除）
-  - ユーザー管理
 
 ## 環境要件
 
@@ -104,7 +102,7 @@ npm run build
 ```
 
 ### 管理画面へのアクセス
-- 管理画面: `http://localhost/admin`
+- 管理画面: `http://localhost/admin/login`
 - ユーザー画面: `http://localhost`
 
 ## テストの実行
@@ -123,19 +121,6 @@ npm run build
 
 ### クイズ管理
 - カテゴリ別のクイズ作成・編集・削除
-- 問題の一括インポート/エクスポート
-- 公開/非公開の切り替え
-- 正解率などの統計情報の確認
-
-### ユーザー管理
-- ユーザー一覧・検索・フィルタリング
-- ユーザー権限の管理
-- ユーザーごとの解答履歴確認
-
-### 統計・レポート
-- 人気のクイズランキング
-- ユーザーごとのスコア推移
-- 問題ごとの正答率
 
 ## デプロイ
 
@@ -213,25 +198,16 @@ tests/             # テストファイル
    php artisan view:clear
    ```
 
-## 貢献方法
-
-1. リポジトリをフォーク
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
 
 ## ライセンス
 このプロジェクトは [MIT license](https://opensource.org/licenses/MIT) で公開されています。
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 著者
 
-## Security Vulnerabilities
+Ten10sun
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+*このドキュメントはプロジェクトの進捗に伴い更新される場合があります。***
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
